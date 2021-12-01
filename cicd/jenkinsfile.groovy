@@ -2,11 +2,13 @@ pipeline {
  agent any
  stages {
         stage("Build") {
-            withCredentials([file(credentialsId: 'env-cicd', variable: 'env-file')]) {
+            steps{
                 sh 'php --version'
                 sh 'composer install'
                 sh 'composer --version'
-                sh 'cp \$env-file .env'
+                withCredentials([file(credentialsId: 'env-cicd', variable: 'FILE')]) {
+                    sh 'cp $FILE .env'
+                }
                 sh 'php artisan key:generate'
                 sh 'cp .env .env.testing'
                 sh 'php artisan migrate'

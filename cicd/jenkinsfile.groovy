@@ -8,6 +8,7 @@ pipeline {
                 sh 'composer --version'
                 withCredentials([file(credentialsId: 'env-cicd', variable: 'FILE')]) {
                     sh 'cp $FILE .env'
+                    sh 'chmod 664 .env'
                 }
                 sh 'php artisan key:generate'
                 sh 'cp .env .env.testing'

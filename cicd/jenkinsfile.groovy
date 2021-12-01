@@ -3,18 +3,16 @@ pipeline {
  stages {
         stage("Build") {
             environment {
-                DB_HOST = credentials("laravel-host")
-                DB_PORT = credentials("laravel-port")
-                DB_DATABASE = credentials("laravel-database")
-                DB_USERNAME = credentials("laravel-user")
-                DB_PASSWORD = credentials("laravel-password")
+                ENV_FILE = file("env-cicd")
             }
             steps {
                 sh 'php --version'
                 sh 'composer install'
                 sh 'composer --version'
-                sh 'cp .env.example .env'
+                sh 'cp \$ENV_FILE .env'
                 sh 'php artisan key:generate'
+                sh 'cp .env .env.testing'
+                sh 'php artisan migrate'
             }
         }
         stage("Unit test") {

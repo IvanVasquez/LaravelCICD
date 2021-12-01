@@ -37,7 +37,7 @@ pipeline {
         }
         steps {
             sh "docker login --username ${DOCKER_USERNAME} --password ${DOCKER_PASSWORD}"
-            sh "docker push danielgara/laravel8cd"
+            sh "docker push ivanvasquez0713/laravel-cicd"
         }
     }
   }

@@ -7,7 +7,7 @@ pipeline {
         }
     }
     stage("Composer") {
-        setps {
+        steps {
             sh 'php -r "copy(\'https://getcomposer.org/installer\', \'composer-setup.php\');"'
             sh 'php composer-setup.php'
             sh 'php -r "unlink(\'composer-setup.php\');"'
@@ -16,8 +16,8 @@ pipeline {
     stage("Build") {
         steps {
             sh 'php --version'
-            sh 'composer install'
-            sh 'composer --version'
+            sh 'php composer.phar install'
+            sh 'php composer.phar --version'
             withCredentials([file(credentialsId: 'env-cicd', variable: 'FILE')]) {
                 sh 'cp $FILE .env'
                 sh 'chmod 664 .env'
